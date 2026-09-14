@@ -1,0 +1,25 @@
+# Data manipulation and analysis
+pandas==2.2.1
+numpy==1.26.4
+
+# Machine learning and utilities
+scikit-learn==1.4.1.post1
+# Text embeddings
+sentence-transformers==2.5.1
+# Vector similarity search
+faiss-cpu==1.8.0
+
+# LLM API client
+anthropic==0.21.3
+
+# Environment variable management
+python-dotenv==1.0.1
+
+# Notebooks and interactive exploration
+jupyter==1.0.0
+
+# Progress bars
+tqdm==4.66.2
+
+# Testing framework
+pytest==8.1.1
