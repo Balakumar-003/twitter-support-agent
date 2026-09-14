@@ -27,8 +27,18 @@ An AI customer support agent for a brand from the "Customer Support on Twitter" 
 ## Reproduce headline results
 *Note: This section will be updated once the pipeline is implemented. Target runtime: under 15 minutes.*
 
+## Dataset Acquisition and Inspection
+To reproduce the environment:
+1. Ensure the Kaggle Customer Support on Twitter dataset is placed in `data/raw/archive/twcs/twcs.csv`.
+2. Run the dataset inspection script to verify the schema and file integrity:
+   ```bash
+   python src/inspect_dataset.py
+   ```
+   A detailed dataset inspection report is available in `experiments/dataset_inspection.md`.
+
 ## Project Structure
 - `data/`: Raw and processed dataset files (CSVs and Parquet files).
 - `eval/`: Evaluation scripts, metrics, and the golden evaluation set.
 - `notebooks/`: Jupyter notebooks for exploratory data analysis (EDA).
 - `src/`: Core source code for data prep, intents, retrieval, generation, and orchestration.
+- `experiments/`: Experiment logs and inspection reports.
