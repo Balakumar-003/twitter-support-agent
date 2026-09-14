@@ -36,9 +36,16 @@ To reproduce the environment:
    ```
    A detailed dataset inspection report is available in `experiments/dataset_inspection.md`.
 
+## Brand Selection
+**AppleSupport** was selected as the target brand for this agent.
+- **Identification:** Brands were identified by tracking `author_id` where `inbound == False`.
+- **Rationale:** AppleSupport demonstrated the highest volume of conversations and a perfectly balanced ratio of inbound-to-outbound messages in our data sample.
+- **Reproducibility:** Run `python src/analyze_brands.py` to view the statistical comparison. See `experiments/brand_selection_report.md` for full details.
+
 ## Project Structure
+- `configs/`: Configuration files (e.g., selected brand parameters).
 - `data/`: Raw and processed dataset files (CSVs and Parquet files).
 - `eval/`: Evaluation scripts, metrics, and the golden evaluation set.
+- `experiments/`: Experiment logs and inspection reports.
 - `notebooks/`: Jupyter notebooks for exploratory data analysis (EDA).
 - `src/`: Core source code for data prep, intents, retrieval, generation, and orchestration.
-- `experiments/`: Experiment logs and inspection reports.
