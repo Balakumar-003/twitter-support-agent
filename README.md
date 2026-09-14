@@ -42,6 +42,12 @@ To reproduce the environment:
 - **Rationale:** AppleSupport demonstrated the highest volume of conversations and a perfectly balanced ratio of inbound-to-outbound messages in our data sample.
 - **Reproducibility:** Run `python src/analyze_brands.py` to view the statistical comparison. See `experiments/brand_selection_report.md` for full details.
 
+## Conversation Reconstruction
+We transform flat tweet records into chronologically ordered conversation threads.
+- **Approach:** We use graph theory (connected components) linking `tweet_id`, `in_response_to_tweet_id`, and `response_tweet_id`.
+- **Output:** The threaded dataset is saved to `data/processed/conversations.csv`.
+- **Reproducibility:** Run `python src/reconstruct_conversations.py`. See `experiments/conversation_reconstruction_report.md` for full details.
+
 ## Project Structure
 - `configs/`: Configuration files (e.g., selected brand parameters).
 - `data/`: Raw and processed dataset files (CSVs and Parquet files).
