@@ -1,0 +1,44 @@
+{
+  "escalation_rules": [
+    {
+      "id": "R1_EXPLICIT_HUMAN_REQUEST",
+      "priority": 1,
+      "description": "Customer explicitly requested a human agent.",
+      "triggers": ["talk to a human", "real person", "human agent", "representative", "manager"]
+    },
+    {
+      "id": "R2_HIGH_RISK_CONTENT",
+      "priority": 1,
+      "description": "Message contains threats, legal threats, or safety-related keywords.",
+      "triggers": ["sue", "lawyer", "lawsuit", "kill", "die", "harass", "steal", "police"]
+    },
+    {
+      "id": "R3_SENSITIVE_INTENT",
+      "priority": 1,
+      "description": "The predicted intent is flagged as highly sensitive (requires secure verification).",
+      "sensitive_intents": ["account_authentication"]
+    },
+    {
+      "id": "R4_LOW_CLASSIFIER_CONFIDENCE",
+      "priority": 2,
+      "description": "Intent classifier confidence is below the provisional safe threshold.",
+      "min_confidence_threshold": 0.65
+    },
+    {
+      "id": "R5_NO_RETRIEVAL_EVIDENCE",
+      "priority": 3,
+      "description": "No historical cases were retrieved or similarity is too low.",
+      "min_retrieval_similarity": 0.1
+    },
+    {
+      "id": "R6_GENERATION_FAILED",
+      "priority": 4,
+      "description": "Reply generator flagged uncertainty or grounding failed."
+    }
+  ],
+  "default_behavior": "escalate_on_missing_signals",
+  "explanation_templates": {
+    "escalate": "Escalated for human review due to: {reason}",
+    "auto_handle": "Cleared for auto-reply. No high-risk signals detected."
+  }
+}

@@ -78,6 +78,35 @@ To establish performance benchmarks, we implemented two lightweight, interpretab
 - **Limitations:** As our train/test splits currently contain no annotated data (due to the sample dataset size), the scripts are designed to execute safely, detect the lack of data, and exit gracefully with an informative warning rather than fabricating results. See `experiments/baseline_comparison.md` for the theoretical failure modes and expected metrics.
 - **Reproducibility:** Run `python src/baseline_majority.py`, `python src/baseline_tfidf.py`, and `python src/evaluate_baselines.py`.
 
+## Historical Case Retrieval
+We built a TF-IDF retrieval system to find historical customer support cases for grounding generation.
+- **Corpus Construction:** Extracts the initial customer message and subsequent brand response for the selected brand from the processed dataset.
+- **Data Leakage Prevention:** Any conversation ID existing in the golden evaluation set is strictly excluded from the corpus. Due to the small dataset sample available, 100% of conversations were in the golden set, leading to a corpus size of 0.
+- **Algorithm:** Uses TF-IDF and Cosine Similarity to find relevant cases, dropping matches below a 0.1 confidence threshold.
+- **Reproducibility:** Run `python src/build_retrieval_corpus.py` to create the corpus, `python src/retrieve_cases.py --text "<query>"` to query, and `python src/evaluate_retrieval.py` to evaluate. See `experiments/retrieval_report.md` for complete details.
+
+## Grounded Reply Generation
+We built a dual-tier response generation system (Template + LLM Mock Mode) strictly constrained to use only retrieved historical evidence.
+- **Evidence Handling:** If the retrieval corpus returns no matches (which currently happens 100% of the time due to strict dataset splitting isolating all rows into the golden set), the generator correctly abstains, flags for uncertainty, and escalates to a human agent.
+- **Mock LLM:** An LLM client is available to run in a safe mock mode unless proper Anthropic API credentials are provided.
+- **Reproducibility:** Run `python src/generate_reply.py --text "<query>"` to see the generator safely abstain due to missing evidence. Run `python src/generate_reply.py --text "<query>" --use_llm` to test the mock LLM flow. See `experiments/reply_generation_report.md` for complete details.
+
+## Escalation Decision System
+We developed a transparent, rule-based escalation system to determine whether a message is safe to auto-handle.
+- **Safety Principle:** The system defaults to human escalation if any required signals (confidence, evidence, generation success) are missing or fall below provisional thresholds.
+- **Priority Rules:** Explicit human requests, high-risk content, and sensitive intents are escalated immediately, overriding other logic.
+- **Reproducibility:** Run `pytest tests/test_escalation.py -v` to validate the edge-case rule logic. See `experiments/escalation_report.md` for full methodology.
+
+## End-to-End Support-Agent Pipeline
+The components above are orchestrated into a single, cohesive customer support pipeline (`src/support_agent.py`) capable of parsing an incoming message, finding historical evidence, drafting a reply, and making a safe auto-handle/escalation decision.
+- **Architecture:** `support_agent.py` orchestrates the intent classifier, retriever, reply generator, and escalation policy into a robust data flow.
+- **Error Handling:** Graceful failure is implemented at every step. If any component crashes, or if data is missing, the pipeline defaults to a safe `escalate` state and hides internal errors from the final customer-facing JSON contract.
+- **Known Limitations:** Due to the empty dataset splits identified in previous milestones, the agent currently correctly defaults to escalation for all live queries due to lack of retrieval evidence.
+- **Reproducibility:** 
+  - To run the complete agent manually (will default to escalate): `python src/support_agent.py --text "My payment was charged twice"`
+  - To run the integration tests validating the logic: `pytest tests/test_support_agent.py -v`
+  - See `experiments/end_to_end_examples.md` for example output contracts.
+
 ## Project Structure
 - `configs/`: Configuration files (e.g., selected brand parameters, intent taxonomies).
 - `data/`: Raw and processed dataset files (CSVs and Parquet files).
