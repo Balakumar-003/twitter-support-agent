@@ -1,0 +1,112 @@
+{
+  "intents": [
+    {
+      "intent_id": "os_update_performance",
+      "name": "OS Update / Performance Issues",
+      "description": "Issues related to slow performance, freezing, or bugs after an iOS update.",
+      "positive_examples": [
+        "I just updated my phone and suddenly everything takes ages to load",
+        "after the 11.0.2 my phone just sucks",
+        "latest ios is too slow"
+      ],
+      "negative_examples": [
+        "killing my battery within 12 hours"
+      ],
+      "inclusion_rules": [
+        "Include any complaints about device speed, freezing, or general bugs specifically tied to an OS update."
+      ],
+      "exclusion_rules": [
+        "Exclude issues strictly about battery life without mentioning update performance.",
+        "Exclude hardware damage."
+      ],
+      "priority_if_multiple_intents_apply": 3,
+      "escalation_relevance": "Low",
+      "confidence_notes": "If the user mentions an update AND battery drain, prioritize battery drain."
+    },
+    {
+      "intent_id": "battery_drain",
+      "name": "Battery Drain",
+      "description": "Complaints about the battery dying too quickly or draining fast.",
+      "positive_examples": [
+        "killing my battery within 12 hours",
+        "used my phone for 2 minutes and it drains it down 8 percent"
+      ],
+      "negative_examples": [
+        "phone is dead and won't turn on"
+      ],
+      "inclusion_rules": [
+        "Include all complaints about fast power loss or poor battery health."
+      ],
+      "exclusion_rules": [
+        "Exclude devices that will not charge due to hardware defects."
+      ],
+      "priority_if_multiple_intents_apply": 2,
+      "escalation_relevance": "Medium",
+      "confidence_notes": "Often co-occurs with OS updates. Tag as battery drain if battery is the primary complaint."
+    },
+    {
+      "intent_id": "app_compatibility",
+      "name": "App Compatibility / Usage Issues",
+      "description": "Specific apps crashing, not working together, or broken functionality within the OS.",
+      "positive_examples": [
+        "does not let me listen to music and go on whatsapp at the same time",
+        "most of the apps are broken, wifi disconnects frequently"
+      ],
+      "negative_examples": [
+        "my iphone screen is cracked"
+      ],
+      "inclusion_rules": [
+        "Include mentions of specific apps failing to open or conflicting."
+      ],
+      "exclusion_rules": [
+        "Exclude third-party app issues if they are completely unrelated to Apple's OS."
+      ],
+      "priority_if_multiple_intents_apply": 4,
+      "escalation_relevance": "Low",
+      "confidence_notes": "Look for specific app names or functional bugs."
+    },
+    {
+      "intent_id": "account_authentication",
+      "name": "Account & Authentication",
+      "description": "Issues with receiving codes, logging in, or Apple ID.",
+      "positive_examples": [
+        "I need a new code for my I-store",
+        "haven’t recd any but msg is too many sent"
+      ],
+      "negative_examples": [
+        "I forgot my password"
+      ],
+      "inclusion_rules": [
+        "Include 2FA issues, locked accounts, and store login failures."
+      ],
+      "exclusion_rules": [
+        "Exclude basic password resets where a self-service link exists."
+      ],
+      "priority_if_multiple_intents_apply": 1,
+      "escalation_relevance": "High",
+      "confidence_notes": "Account issues often require secure human verification."
+    },
+    {
+      "intent_id": "other_or_unclear",
+      "name": "Other / Unclear",
+      "description": "Messages that do not fit into any other intent, lack context, or are not support-related.",
+      "positive_examples": [
+        "Hello",
+        "I hate this",
+        "Do you sell bananas?"
+      ],
+      "negative_examples": [
+        "My battery is draining fast"
+      ],
+      "inclusion_rules": [
+        "Include general feedback, gibberish, or queries outside the support scope."
+      ],
+      "exclusion_rules": [
+        "Do not use if a specific intent is partially applicable."
+      ],
+      "priority_if_multiple_intents_apply": 5,
+      "escalation_relevance": "None",
+      "confidence_notes": "Use as a last resort."
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "intents": [
+    {
+      "intent_id": "os_update_performance",
+      "name": "OS Update / Performance Issues",
+      "description": "Issues related to slow performance, freezing, or bugs after an iOS update.",
+      "in_scope": true,
+      "example_phrases": [
+        "I just updated my phone and suddenly everything takes ages to load",
+        "after the 11.0.2 my phone just sucks",
+        "latest ios is too slow"
+      ],
+      "exclusions": [
+        "Issues strictly about battery life without mentioning update performance",
+        "Hardware damage"
+      ]
+    },
+    {
+      "intent_id": "battery_drain",
+      "name": "Battery Drain",
+      "description": "Complaints about the battery dying too quickly or draining fast.",
+      "in_scope": true,
+      "example_phrases": [
+        "killing my battery within 12 hours",
+        "used my phone for 2 minutes and it drains it down 8 percent"
+      ],
+      "exclusions": [
+        "Device not charging due to hardware issues"
+      ]
+    },
+    {
+      "intent_id": "app_compatibility",
+      "name": "App Compatibility / Usage Issues",
+      "description": "Specific apps crashing, not working together, or broken functionality within the OS.",
+      "in_scope": true,
+      "example_phrases": [
+        "does not let me listen to music and go on whatsapp at the same time",
+        "most of the apps are broken, wifi disconnects frequently"
+      ],
+      "exclusions": [
+        "Third-party app issues unrelated to OS (if identifiable)"
+      ]
+    },
+    {
+      "intent_id": "account_authentication",
+      "name": "Account & Authentication",
+      "description": "Issues with receiving codes, logging in, or Apple ID.",
+      "in_scope": true,
+      "example_phrases": [
+        "I need a new code for my I-store",
+        "haven’t recd any but msg is too many sent"
+      ],
+      "exclusions": [
+        "Forgot password where a self-service link exists"
+      ]
+    }
+  ]
+}
