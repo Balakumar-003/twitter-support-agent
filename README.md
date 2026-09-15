@@ -107,6 +107,22 @@ The components above are orchestrated into a single, cohesive customer support p
   - To run the integration tests validating the logic: `pytest tests/test_support_agent.py -v`
   - See `experiments/end_to_end_examples.md` for example output contracts.
 
+## Experiments and Failure Analysis
+We ran a centralized experiment runner to benchmark the pipeline against hardcoded baselines.
+- **Methodology:** We ran three variants: Variant A (Current Heuristic Pipeline), Variant B (Forced Auto-Handle), and Variant C (Forced Escalate). 
+- **Results:** Because the upstream data processing limited our retrieval corpus to 0 cases, Variant A successfully defaulted to a 100% Escalation Rate to preserve safety. 
+- **Top Failure Modes:** Our primary identified failure modes are entirely structural rather than algorithmic hallucinations:
+  1. **Empty Retrieval Corpus:** The dataset sample was fully isolated into the evaluation set, leaving 0 rows for historical retrieval.
+  2. **Untrained Intent Classifier:** The lack of human annotations prevented training the LR intent model.
+  3. **Null Output Drafts:** As a direct result of the empty retrieval corpus, the generator safely aborts drafting (a successful safety feature, but a functional failure in pipeline progression).
+- **Reproducibility:** Run `python src/experiments/run_experiments.py` to generate the predictions for the variants. See `experiments/failure_analysis_report.md` for complete details.
+
+## Final Documentation
+The complete architectural history and summary of this project can be found in the root directory:
+- [FINAL_REPORT.md](FINAL_REPORT.md): System overview, problem framing, the top 5 failure modes, and a strict analysis on what our headline safety metric really means.
+- [DECISION_LOG.md](DECISION_LOG.md): A detailed log of 10 non-obvious technical trade-offs made during development (e.g. strict data isolation, default-to-escalate logic).
+- [FINAL_SUBMISSION.md](FINAL_SUBMISSION.md): The conclusive submission checklist and fresh-environment reproducibility report.
+
 ## Project Structure
 - `configs/`: Configuration files (e.g., selected brand parameters, intent taxonomies).
 - `data/`: Raw and processed dataset files (CSVs and Parquet files).
